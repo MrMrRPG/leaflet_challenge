@@ -19,7 +19,7 @@ function createFeatures(earthquakeData) {
     else if (depth <= 50) return "#D5E40C";
     else if (depth <= 70) return "#E4760C";
     else if (depth <= 90) return "#E40C0C";
-    else return "black";
+    // else return "black";
   }
 
   function style(data) {
