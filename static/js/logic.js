@@ -4,8 +4,7 @@ import { API_KEY } from "./config.js";
 // console.log to confirm the key has been imported
 // console.log(API_KEY);
 
-let url =
-  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
+let url = API_KEY;
 
 // GET request on API
 d3.json(url).then(function (data) {
@@ -20,6 +19,7 @@ function createFeatures(earthquakeData) {
     else if (depth <= 50) return "#D5E40C";
     else if (depth <= 70) return "#E4760C";
     else if (depth <= 90) return "#E40C0C";
+    else return "black";
   }
 
   function style(data) {
@@ -78,7 +78,7 @@ function createMap(earthquakes) {
 
   var myMap = L.map("map", {
     center: [37.09, -95.71],
-    zoom: 5,
+    zoom: 3,
     layers: [street, earthquakes],
   });
   L.control
@@ -90,14 +90,20 @@ function createMap(earthquakes) {
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function (map) {
     let div = L.DomUtil.create("div", "info legend"),
-      depth = [10, 30, 50, 70, 90];
-    colors = ["#0CE49F", "#0EE40C", "#D5E40C", "#E4760C", "#E40C0C"];
-
+      depth = [-10, 10, 30, 50, 70, 90],
+      colors = [
+        "#00FF00",
+        "#0CE49F",
+        "#0EE40C",
+        "#D5E40C",
+        "#E4760C",
+        "#E40C0C",
+      ];
     for (var i = 0; i < depth.length; i++) {
       div.innerHTML +=
-        "<i style= 'background: " +
+        '<i style="background:' +
         colors[i] +
-        "'></i> " +
+        '"></i> ' +
         depth[i] +
         (depth[i + 1] ? "&ndash;" + depth[i + 1] + "<br>" : "+");
     }
