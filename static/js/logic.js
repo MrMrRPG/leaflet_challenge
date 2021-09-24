@@ -4,7 +4,8 @@ import { API_KEY } from "./config.js";
 // console.log to confirm the key has been imported
 // console.log(API_KEY);
 
-let url = API_KEY;
+let url =
+  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
 
 // GET request on API
 d3.json(url).then(function (data) {
@@ -85,23 +86,23 @@ function createMap(earthquakes) {
       collapsed: false,
     })
     .addTo(myMap);
+
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function (map) {
+    let div = L.DomUtil.create("div", "info legend"),
+      depth = [10, 30, 50, 70, 90];
+    colors = ["#0CE49F", "#0EE40C", "#D5E40C", "#E4760C", "#E40C0C"];
+
+    for (var i = 0; i < depth.length; i++) {
+      div.innerHTML +=
+        "<i style= 'background: " +
+        colors[i] +
+        "'></i> " +
+        depth[i] +
+        (depth[i + 1] ? "&ndash;" + depth[i + 1] + "<br>" : "+");
+    }
+    return div;
+  };
+  // Adding legend to the map
+  legend.addTo(myMap);
 }
-
-var legend = L.control({ position: "bottomright" });
-legend.onAdd = function (map) {
-  let div = L.DomUtil.create("div", "info legend"),
-    depth = [10, 30, 50, 70, 90];
-  colors = ["#0CE49F", "#0EE40C", "#D5E40C", "#E4760C", "#E40C0C"];
-
-  for (var i = 0; i < depth.length; i++) {
-    div.innerHTML +=
-      "<i style= 'background: " +
-      colors[i] +
-      "'></i> " +
-      depth[i] +
-      (depth[i + 1] ? "&ndash;" + depth[i + 1] + "<br>" : "+");
-  }
-  return div;
-};
-// Adding legend to the map
-legend.addTo(myMap);
